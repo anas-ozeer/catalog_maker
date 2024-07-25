@@ -12,9 +12,11 @@ class ItemController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Catalog $catalog)
     {
-        //
+        return view('items.index', [
+            'catalog' => $catalog
+        ]);
     }
 
     /**

@@ -4,5 +4,7 @@
             {{ __($item['name']) }}
         </h2>
     </x-slot>
-
+    <h1>
+        Nothing to show here!
+    </h1>
 </x-app-layout>

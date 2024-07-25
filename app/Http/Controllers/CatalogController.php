@@ -10,10 +10,6 @@ use Spatie\LaravelPdf\Facades\Pdf;
 use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\Auth;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
-
-Browsershot::html('Foo')
-    ->setNodeBinary('/usr/local/bin/node')
-    ->setNpmBinary('/usr/local/bin/npm');
 class CatalogController extends Controller
 {
     /**
