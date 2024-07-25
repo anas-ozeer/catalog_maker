@@ -16,9 +16,7 @@
                 <button
                 type="button" onclick="href({{$catalog['id']}})"
                 class="w-full bg-black text-white py-2 px-4 my-4 hover:shadow-md rounded">
-                    {{-- <a href="/catalogs/{{$catalog->id}}/edit" class=""> --}}
-                        Edit Catalog
-                    {{-- </a> --}}
+                    Edit Catalog
                 </button>
 
             </div>

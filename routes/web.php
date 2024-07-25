@@ -21,6 +21,7 @@ Route::get('/catalogs/{catalog}', [CatalogController::class, 'show'])->name('cat
 Route::patch('/catalogs/{catalog}', [CatalogController::class, 'update'])->middleware(['auth', 'verified']);
 Route::post('/catalogs', [CatalogController::class, 'store'])->middleware(['auth', 'verified']);
 Route::delete('/catalogs/{catalog}', [CatalogController::class, 'destroy'])->middleware(['auth', 'verified']);
+Route::get('/catalogs/{catalog}/pdf', [CatalogController::class, 'download_as_pdf'])->middleware(['auth', 'verified']);
 
 // Item Resource
 Route::post('/items', [ItemController::class, 'store'])->middleware(['auth', 'verified']);

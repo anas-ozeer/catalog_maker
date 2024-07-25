@@ -1,12 +1,19 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\Log;
 use App\Models\Item;
 use App\Models\Catalog;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Spatie\LaravelPdf\Facades\Pdf;
+use Spatie\Browsershot\Browsershot;
+use Illuminate\Support\Facades\Auth;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
+Browsershot::html('Foo')
+    ->setNodeBinary('/usr/local/bin/node')
+    ->setNpmBinary('/usr/local/bin/npm');
 class CatalogController extends Controller
 {
     /**
@@ -96,6 +103,31 @@ class CatalogController extends Controller
     {
         $catalog->delete();
         return redirect('catalogs/index');
+    }
+
+
+
+    public function download_as_pdf(Catalog $catalog)
+    {
+
+        // Render the Blade view to HTML
+        $html = view('pdfs.test-pdf', [
+            'catalog' => $catalog
+        ])->render();
+
+        // Correctly handle paths with spaces
+        $nodePath = '/Users/sheikanasallyozeer/Library/Application\\ Support/Herd/config/nvm/versions/node/v20.15.0/bin/node';
+        $npmPath = '/Users/sheikanasallyozeer/Library/Application\\ Support/Herd/config/nvm/versions/node/v20.15.0/bin/npm';
+
+        Browsershot::html($html)
+            ->setNodeBinary($nodePath)
+            ->setNpmBinary($npmPath)
+            ->format('a4')
+            ->save('file.pdf');
+
+        // Return a response to the user
+        return back();
+
     }
 }
 
