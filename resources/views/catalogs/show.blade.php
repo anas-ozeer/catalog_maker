@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-3xl text-gray-800 leading-tight">
-            {{ __($catalog['name']) }}
+            {{ __($catalog->name) }}
         </h2>
     </x-slot>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
@@ -40,7 +40,7 @@
             type="button"
             class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-xl"
             x-data=""
-            x-on:click="$dispatch('open-modal', 'confirm-catalog-deletion')"
+            x-on:click="$dispatch('open-modal', 'confirm-catalog-deletion-{{$catalog->id}}')"
             >
             Delete Catalog
             </button>
@@ -49,7 +49,7 @@
 </x-app-layout>
 
 <!-- Confirmation Modal -->
-<x-modal name="confirm-catalog-deletion" :show="false" focusable>
+<x-modal name="confirm-catalog-deletion-{{$catalog->id}}" :show="false" focusable>
     <div class="p-6">
         <h2 class="text-lg font-medium text-gray-900">
             Are you sure you want to delete this catalog?

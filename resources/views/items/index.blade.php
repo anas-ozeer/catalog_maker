@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __($catalog['name']) }}
+            {{ __($catalog->name.' Items') }}
         </h2>
     </x-slot>
     @php
@@ -16,7 +16,7 @@
     <div class="fixed bottom-0 left-0 w-full font-bold h-24">
         <button
         type="button"
-        class="absolute rounded top-1/3 right-10 bg-black text-white py-2 px-5 hover:shadow-md"
+        class="absolute rounded-xl top-1/3 right-10 bg-black text-white py-2 px-5 hover:shadow-md"
         x-data=""
         x-on:click="$dispatch('open-modal', 'create-item')"
         >

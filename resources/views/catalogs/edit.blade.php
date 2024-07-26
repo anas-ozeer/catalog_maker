@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="mb-6">
-                    <button class="rounded py-2 px-4 bg-black text-white" type="submit">
+                    <button class="rounded-xl py-2 px-4 bg-black text-white" type="submit">
                         Edit Catalog
                     </button>
 

@@ -13,7 +13,7 @@
             </h5>
         @endisset
         @isset($price)
-            <p class="block font-sans text-base antialiased font-light leading-relaxed text-inherit">
+            <p class="block mb-2 font-sans antialiased font-light leading-snug tracking-normal text-blue-gray-700">
                 {{ $price }}
             </p>
         @endisset
