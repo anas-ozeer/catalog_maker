@@ -29,21 +29,22 @@
             >
                 Show Items
             </button>
+            @can('modify_catalog', $catalog)
+                <button
+                type="button" onclick="edit_catalog({{$catalog->id}})"
+                class="w-full bg-black text-white py-2 px-4 my-4 hover:shadow-md rounded-xl">
+                    Edit Catalog
+                </button>
 
-            <button
-            type="button" onclick="edit_catalog({{$catalog->id}})"
-            class="w-full bg-black text-white py-2 px-4 my-4 hover:shadow-md rounded-xl">
-                Edit Catalog
-            </button>
-
-            <button
-            type="button"
-            class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-xl"
-            x-data=""
-            x-on:click="$dispatch('open-modal', 'confirm-catalog-deletion-{{$catalog->id}}')"
-            >
-            Delete Catalog
-            </button>
+                <button
+                type="button"
+                class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-xl"
+                x-data=""
+                x-on:click="$dispatch('open-modal', 'confirm-catalog-deletion-{{$catalog->id}}')"
+                >
+                Delete Catalog
+                </button>
+            @endcan
         </div>
     </div>
 </x-app-layout>

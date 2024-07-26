@@ -103,6 +103,10 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        //
+        $catalog = $item->catalog;
+        $item->delete();
+        return view('items.index', [
+            'catalog' => $catalog
+        ]);
     }
 }

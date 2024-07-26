@@ -22,23 +22,27 @@
             <div class="text-gray-700 h-full">
                 {{ $item->description }}
             </div>
-            <button
-            type="button"
-            class="w-full bg-black text-white py-2 px-4 my-4 hover:shadow-md rounded-xl"
-            x-data=""
-            x-on:click="$dispatch('open-modal', 'edit-item-{{$item['id']}}')"
-            >
-            Edit Item
-            </button>
 
-            <button
-            type="button"
-            class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-xl"
-            x-data=""
-            x-on:click="$dispatch('open-modal', 'confirm-item-deletion-{{$item['id']}}')"
-            >
-            Delete Item
-            </button>
+            @can('modify_item', $item)
+                <button
+                type="button"
+                class="w-full bg-black text-white py-2 px-4 my-4 hover:shadow-md rounded-xl"
+                x-data=""
+                x-on:click="$dispatch('open-modal', 'edit-item-{{$item['id']}}')"
+                >
+                Edit Item
+                </button>
+
+                <button
+                type="button"
+                class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-xl"
+                x-data=""
+                x-on:click="$dispatch('open-modal', 'confirm-item-deletion-{{$item['id']}}')"
+                >
+                Delete Item
+                </button>
+            @endcan
+
         </div>
     </div>
 </x-app-layout>
@@ -128,7 +132,7 @@
                 @csrf
                 @method('DELETE')
                 <x-danger-button type="submit">
-                    Delete Catalog
+                    Delete Item
                 </x-danger-button>
             </form>
         </div>

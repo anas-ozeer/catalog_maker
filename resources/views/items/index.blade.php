@@ -13,16 +13,19 @@
             </x-item-card>
         @endforeach
     </div>
-    <div class="fixed bottom-0 left-0 w-full font-bold h-24">
-        <button
-        type="button"
-        class="absolute rounded-xl top-1/3 right-10 bg-black text-white py-2 px-5 hover:shadow-md"
-        x-data=""
-        x-on:click="$dispatch('open-modal', 'create-item')"
-        >
-        Create Item
-        </button>
-    </div>
+    @can('modify_catalog', $catalog)
+        <div class="fixed bottom-0 left-0 w-full font-bold h-24">
+            <button
+            type="button"
+            class="absolute rounded-xl top-1/3 right-10 bg-black text-white py-2 px-5 hover:shadow-md"
+            x-data=""
+            x-on:click="$dispatch('open-modal', 'create-item')"
+            >
+            Create Item
+            </button>
+        </div>
+    @endcan
+
 </x-app-layout>
 
 <!-- Create Item Modal -->
