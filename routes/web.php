@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProfileController;
@@ -9,9 +10,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard',[CatalogController::class, 'view_all'])->middleware(['auth', 'verified'])->name('dashboard');
 
 // Catalog Resource
 Route::get('/catalogs/index', [CatalogController::class, 'index'])->middleware(['auth', 'verified'])->name('catalogs.index');

@@ -13,12 +13,23 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 class CatalogController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display all listing of the resource.
+     */
+    public function view_all()
+    {
+        $catalogs = Auth::user()->catalogs;
+        return view('dashboard', [
+            'catalogs' => Catalog::latest()->get()
+        ]);
+    }
+    /**
+     * Display listings of the resource.
      */
     public function index()
     {
+        $catalogs = Auth::user()->catalogs;
         return view('catalogs.index', [
-            'catalogs' => Catalog::latest()->get()
+            'catalogs' => $catalogs
         ]);
     }
 
