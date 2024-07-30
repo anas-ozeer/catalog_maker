@@ -117,7 +117,7 @@ class CatalogController extends Controller
     public function download_as_pdf(Catalog $catalog)
     {
 
-        $html = view('pdfs.download', [
+        $html = view('pdfs.catalog', [
             'catalog' => $catalog
         ])->render();
 
@@ -139,7 +139,7 @@ class CatalogController extends Controller
 
     public function view_pdf(Catalog $catalog)
     {
-        return view('pdfs.view',[
+        return view('pdfs.catalog',[
             'catalog' => $catalog
         ]);
     }

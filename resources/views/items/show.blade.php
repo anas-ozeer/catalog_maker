@@ -103,7 +103,7 @@
                 <x-secondary-button x-on:click="$dispatch('close')" >
                     Cancel
                 </x-secondary-button>
-                <x-primary-button>
+                <x-primary-button class="mx-2">
                     Edit
                 </x-primary-button>
             </div>

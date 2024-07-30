@@ -10,7 +10,7 @@
     </x-slot>
 
     <x-slot name="price">
-        {{ $item->price }}
+        Rs{{ $item->price }}
     </x-slot>
 </x-card>
 

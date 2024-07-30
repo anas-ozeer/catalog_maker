@@ -91,10 +91,6 @@ class ItemController extends Controller
 
         $updated = $item->update($attributes);
 
-        if (!$updated) {
-            dd($item);
-        }
-
         return back();
     }
 
