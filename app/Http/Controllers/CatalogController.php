@@ -6,7 +6,7 @@ use App\Models\Item;
 use App\Models\Catalog;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Spatie\LaravelPdf\Facades\Pdf;
+use function Spatie\LaravelPdf\Support\pdf;
 use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\Auth;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -49,7 +49,7 @@ class CatalogController extends Controller
         // Validate the fields and store them
         $attributes = $request->validate([
             'name' => ['required', 'min:3'],
-            'description' => 'nullable',
+            'description' => ['nullable', 'string'],
             'logo' => 'nullable|image'
         ]);
         if ($request->hasFile('logo')) {
@@ -91,7 +91,7 @@ class CatalogController extends Controller
         // Validate the fields and store them
         $attributes = $request->validate([
             'name' => ['required', 'min:3'],
-            'description' => 'nullable',
+            'description' => ['nullable', 'string'],
             'logo' => 'nullable|image'
         ]);
         if ($request->hasFile('logo')) {
@@ -117,8 +117,7 @@ class CatalogController extends Controller
     public function download_as_pdf(Catalog $catalog)
     {
 
-        // Render the Blade view to HTML
-        $html = view('pdfs.test-pdf', [
+        $html = view('pdfs.download', [
             'catalog' => $catalog
         ])->render();
 
@@ -126,15 +125,23 @@ class CatalogController extends Controller
         $nodePath = '/Users/sheikanasallyozeer/Library/Application\\ Support/Herd/config/nvm/versions/node/v20.15.0/bin/node';
         $npmPath = '/Users/sheikanasallyozeer/Library/Application\\ Support/Herd/config/nvm/versions/node/v20.15.0/bin/npm';
 
-        Browsershot::html($html)
-            ->setNodeBinary($nodePath)
-            ->setNpmBinary($npmPath)
-            ->format('a4')
-            ->save('file.pdf');
+        $pdf = Browsershot::html($html)
+        ->setNodeBinary($nodePath)
+        ->setNpmBinary($npmPath)
+        ->margins(0,0,0,0)
+        ->format('a4')
+        ->pdf();
 
-        // Return a response to the user
-        return back();
+        return response($pdf, 200, [
+            'Content-Type' => 'application/pdf'
+        ]);
+    }
 
+    public function view_pdf(Catalog $catalog)
+    {
+        return view('pdfs.view',[
+            'catalog' => $catalog
+        ]);
     }
 }
 

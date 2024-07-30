@@ -20,8 +20,8 @@ Route::get('/catalogs/{catalog}', [CatalogController::class, 'show'])->name('cat
 Route::patch('/catalogs/{catalog}', [CatalogController::class, 'update'])->middleware(['auth', 'verified'])->can('modify_catalog','catalog');
 Route::post('/catalogs', [CatalogController::class, 'store'])->middleware(['auth', 'verified']);
 Route::delete('/catalogs/{catalog}', [CatalogController::class, 'destroy'])->middleware(['auth', 'verified'])->can('modify_catalog','catalog');
-Route::get('/catalogs/{catalog}/pdf', [CatalogController::class, 'download_as_pdf'])->middleware(['auth', 'verified']);
-
+Route::get('/catalogs/{catalog}/pdf-download', [CatalogController::class, 'download_as_pdf'])->middleware(['auth', 'verified']);
+Route::get('/catalogs/{catalog}/pdf-view', [CatalogController::class, 'view_pdf'])->middleware(['auth', 'verified']);
 // Item Resource
 Route::get('/items/{item}',[ItemController::class, 'show'])->name('items.show')->middleware(['auth', 'verified']);
 Route::get('/catalogs/{catalog}/items', [ItemController::class, 'index'])->name('items.index')->middleware(['auth', 'verified']);

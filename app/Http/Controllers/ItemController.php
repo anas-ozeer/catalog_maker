@@ -35,7 +35,7 @@ class ItemController extends Controller
         // Validate the fields and store them
         $attributes = $request->validate([
             'name' => ['required', 'min:3'],
-            'description' => 'nullable',
+            'description' => ['nullable', 'string'],
             'item_image' => 'nullable|image',
             'price' => ['required', 'decimal:0,2']
         ]);
@@ -78,7 +78,7 @@ class ItemController extends Controller
         // Validate the fields and store them
         $attributes = $request->validate([
             'name' => ['required', 'min:3'],
-            'description' => 'nullable',
+            'description' => ['nullable', 'string'],
             'item_image' => 'nullable|image',
             'price' => ['required', 'numeric', 'min:0','decimal:0,2']
         ]);
