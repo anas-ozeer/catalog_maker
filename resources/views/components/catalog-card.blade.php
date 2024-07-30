@@ -1,6 +1,6 @@
 @props(['catalog'])
 
-<x-card class="w-96 m-6">
+<x-card class="w-72 m-6">
     <x-slot name="image">
         <img
             class="md:block"
