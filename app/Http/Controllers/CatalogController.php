@@ -49,7 +49,7 @@ class CatalogController extends Controller
         // Validate the fields and store them
         $attributes = $request->validate([
             'name' => ['required', 'min:3'],
-            'description' => ['nullable', 'string'],
+            'description' => ['nullable', 'string', 'max:255'],
             'logo' => 'nullable|image'
         ]);
         if ($request->hasFile('logo')) {
@@ -90,8 +90,8 @@ class CatalogController extends Controller
     {
         // Validate the fields and store them
         $attributes = $request->validate([
-            'name' => ['required', 'min:3'],
-            'description' => ['nullable', 'string'],
+            'name' => ['required', 'min:3', 'string'],
+            'description' => ['nullable', 'string', 'max:255'],
             'logo' => 'nullable|image'
         ]);
         if ($request->hasFile('logo')) {

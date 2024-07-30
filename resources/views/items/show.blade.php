@@ -50,7 +50,7 @@
 
 
 <!-- Edit Item Modal -->
-<x-modal name="edit-item-{{$item['id']}}" :show="false" focusable>
+<x-modal name="edit-item-{{$item['id']}}" :show="$errors->any()" focusable>
     <div class="p-6">
         <h2 class="text-lg font-medium text-gray-900">
             Edit an Item

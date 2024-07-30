@@ -59,7 +59,7 @@
                     @if (!empty($item->description))
                     <p class="my-5"><strong>Description: </strong>{{ $item->description }}</p>
                     @endif
-                    <p class="my-5"><strong>Price:</strong> ${{ number_format($item->price, 2) }}</p>
+                    <p class="my-5"><strong>Price: </strong> ${{ number_format($item->price, 2) }}</p>
                 </div>
             </div>
             <footer class="text-right">
