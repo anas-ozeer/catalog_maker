@@ -1,9 +1,8 @@
 @props(['catalog'])
 
-<x-card class="w-72 m-6">
+<x-card class="w-96 m-6">
     <x-slot name="image">
         <img
-            class="md:block"
             src="{{$catalog->logo ? asset('storage/'.$catalog->logo) : asset('images/no-image.png')}}"
             alt="Catalog Logo"/>
     </x-slot>

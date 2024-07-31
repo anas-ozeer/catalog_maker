@@ -26,13 +26,9 @@
         justify-content: space-between;
     }
 
-    header {
-        border-bottom: 1px solid #000000;
-    }
-
 
 </style>
-<body >
+<body>
         {{-- The logo cover --}}
         <div class="page border-2 border-black">
             <img src="{{$catalog->logo ? asset('storage/'.$catalog->logo) : asset('images/no-image.png')}}" class="w-full h-full">
@@ -43,7 +39,6 @@
         @endphp
         {{-- The items --}}
         @foreach ($items as $item)
-
             <div class="page border-2 border-black bg-gray-100">
                 <header class="flex items-center justify-between p-5">
                     <img src="{{ $item->catalog->logo ? asset('storage/'.$item->catalog->logo) : asset('images/no-image.png') }}" alt="" class="w-auto h-14 rounded border-2">
