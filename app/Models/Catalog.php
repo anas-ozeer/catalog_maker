@@ -15,7 +15,7 @@ class Catalog extends Model
     protected $fillable = [
         'name',
         'description',
-        'logo',
+        'cover',
         'user_id'
     ];
 

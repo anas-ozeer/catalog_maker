@@ -9,7 +9,7 @@
             <div class="w-full mt-1">
                 <img
                     class="w-full h-full object-cover rounded-lg shadow-md"
-                    src="{{ $catalog->logo ? asset('storage/'.$catalog->logo) : asset('images/no-image.png') }}"
+                    src="{{ $catalog->cover ? asset($catalog->cover) : asset('images/no-image.png') }}"
                     alt="Catalog Logo"
                 />
             </div>

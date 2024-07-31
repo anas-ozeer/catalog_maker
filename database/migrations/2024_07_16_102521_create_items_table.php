@@ -15,8 +15,8 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->longText('description')->nullable();
-            $table->string('item_image')->nullable();
+            $table->string('description')->nullable();
+            $table->string('image')->nullable();
             $table->decimal('price');
             $table->foreignIdFor(Catalog::class);
             $table->timestamps();

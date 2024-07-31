@@ -9,7 +9,7 @@
             <div class="w-full mt-1">
                 <img
                     class="w-full h-full object-cover rounded-lg shadow-md"
-                    src="{{ $item->item_image ? asset('storage/'.$item->item_image) : asset('images/no-image.png') }}"
+                    src="{{ $item->image ? asset($item->image) : asset('images/no-image.png') }}"
                     alt="Item Image"
                 />
             </div>
@@ -28,7 +28,7 @@
                 type="button"
                 class="w-full bg-black text-white py-2 px-4 my-4 hover:shadow-md rounded-xl"
                 x-data=""
-                x-on:click="$dispatch('open-modal', 'edit-item-{{$item['id']}}')"
+                x-on:click="$dispatch('open-modal', 'edit-item-{{$item->id}}')"
                 >
                 Edit Item
                 </button>
@@ -37,7 +37,7 @@
                 type="button"
                 class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-xl"
                 x-data=""
-                x-on:click="$dispatch('open-modal', 'confirm-item-deletion-{{$item['id']}}')"
+                x-on:click="$dispatch('open-modal', 'confirm-item-deletion-{{$item->id}}')"
                 >
                 Delete Item
                 </button>
@@ -50,7 +50,7 @@
 
 
 <!-- Edit Item Modal -->
-<x-modal name="edit-item-{{$item['id']}}" :show="$errors->any()" focusable>
+<x-modal name="edit-item-{{$item->id}}" :show="$errors->any()" focusable>
     <div class="p-6">
         <h2 class="text-lg font-medium text-gray-900">
             Edit an Item
@@ -59,20 +59,20 @@
         <p class="mt-1 text-sm text-gray-600">
             Fill in the details for the item
         </p>
-        <form action="/items/{{$item['id']}}" method="POST" enctype="multipart/form-data">
+        <form action="/items/{{$item->id}}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
             <div class="mb-6">
                 <x-input-label for="name" >Name</x-input-label>
-                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="name" value="{{$item['name']}}" required/>
-                @error('name')
+                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="item_name" value="{{$item->name}}" required/>
+                @error('item_name')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
             </div>
             <div class="mb-6">
-                <x-input-label for="description" >Description</x-input-label>
-                <textarea class="border border-gray-200 rounded p-2 w-full" name="description" rows="10">{{$item['description']}}</textarea>
-                @error('description')
+                <x-input-label for="item_description" >Description</x-input-label>
+                <textarea class="border border-gray-200 rounded p-2 w-full" name="description" rows="10">{{$item->description}}</textarea>
+                @error('item_description')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
             </div>
@@ -84,7 +84,6 @@
                     type="file"
                     class="border border-gray-200 rounded p-2 w-full"
                     name="item_image"
-                    value="{{$item['item_image']}}"
                     accept="image/*"
                 />
                 @error('item_image')
@@ -92,9 +91,9 @@
                 @enderror
             </div>
             <div class="mb-6">
-                <x-input-label for="price" >Price</x-input-label>
-                <input type="number" step="0.01" min="0" placeholder="0.00" class="border border-gray-200 rounded p-2 w-full" name="price" value="{{$item['price']}}" required />
-                @error('price')
+                <x-input-label for="item_price" >Price</x-input-label>
+                <input type="number" step="0.01" min="0" placeholder="0.00" class="border border-gray-200 rounded p-2 w-full" name="item_price" value="{{$item['price']}}" required />
+                @error('item_price')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
             </div>
@@ -113,7 +112,7 @@
 
 
 <!-- Confirmation Modal -->
-<x-modal name="confirm-item-deletion-{{$item['id']}}" :show="false" focusable>
+<x-modal name="confirm-item-deletion-{{$item->id}}" :show="false" focusable>
     <div class="p-6">
         <h2 class="text-lg font-medium text-gray-900">
             Are you sure you want to delete this catalog?

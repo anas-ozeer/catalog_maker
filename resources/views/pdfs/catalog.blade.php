@@ -31,7 +31,7 @@
 <body>
         {{-- The logo cover --}}
         <div class="page border-2 border-black">
-            <img src="{{$catalog->logo ? asset('storage/'.$catalog->logo) : asset('images/no-image.png')}}" class="w-full h-full">
+            <img src="{{$catalog->cover ? asset($catalog->cover) : asset('images/no-image.png')}}" class="w-full h-full">
         </div>
         @php
             $items = $catalog->items;
@@ -41,11 +41,11 @@
         @foreach ($items as $item)
             <div class="page border-2 border-black bg-gray-100">
                 <header class="flex items-center justify-between p-5">
-                    <img src="{{ $item->catalog->logo ? asset('storage/'.$item->catalog->logo) : asset('images/no-image.png') }}" alt="" class="w-auto h-14 rounded border-2">
+                    <img src="{{ $item->catalog->cover ? asset($item->catalog->cover) : asset('images/no-image.png') }}" alt="" class="w-auto h-14 rounded border-2">
                     <h1 class="flex-grow text-center text-xl">{{ $item->name }}</h1>
                 </header>
                 <div class="content p-5">
-                    <div class="flex justify-center h-[50vh] rounded-xl shadow-md border-2 bg-white"><img src="{{$item->item_image ? asset('storage/'.$item->item_image) : asset('images/no-image.png')}}" alt="{{ $item->name }}"></div>
+                    <div class="flex justify-center h-[50vh] rounded-xl shadow-md border-2 bg-white"><img src="{{$item->image ? asset($item->image) : asset('images/no-image.png') }}"  alt="{{ $item->name }}"></div>
                     @if (!empty($item->description))
                     <p class="my-5 text-justify"><strong>Description: </strong>{{ $item->description }}</p>
                     @endif

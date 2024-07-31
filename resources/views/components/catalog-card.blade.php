@@ -3,7 +3,7 @@
 <x-card class="w-96 m-6">
     <x-slot name="image">
         <img
-            src="{{$catalog->logo ? asset('storage/'.$catalog->logo) : asset('images/no-image.png')}}"
+            src="{{$catalog->cover ? asset($catalog->cover) : asset('images/no-image.png')}}"
             alt="Catalog Logo"/>
     </x-slot>
     <x-slot name="title">

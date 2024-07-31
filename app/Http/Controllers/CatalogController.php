@@ -48,17 +48,22 @@ class CatalogController extends Controller
     {
         // Validate the fields and store them
         $attributes = $request->validate([
-            'name' => ['required', 'min:3'],
-            'description' => ['nullable', 'string', 'max:255'],
-            'logo' => 'nullable|image'
+            'catalog_name' => ['required', 'min:3'],
+            'catalog_description' => ['nullable','string', 'max:255'],
+            'cover' => 'nullable|image'
         ]);
-        if ($request->hasFile('logo')) {
-            $attributes['logo'] = $request['logo']->store('logos', 'public');
+
+        if ($request->hasFile('cover')) {
+            $attributes['cover'] = $request->file('cover')->store("catalogs", 'public');
         }
 
-        $attributes['user_id'] = Auth::id();
-
-        Catalog::create($attributes);
+        $data_to_save = [
+            'name' => $attributes['catalog_name'],
+            'description' => $attributes['catalog_description'] ?? null,
+            'cover' => $attributes['cover'] ?? null,
+            'user_id' => Auth::id()
+        ];
+        Catalog::create($data_to_save);
 
         return redirect('/catalogs/index');
     }
@@ -90,15 +95,24 @@ class CatalogController extends Controller
     {
         // Validate the fields and store them
         $attributes = $request->validate([
-            'name' => ['required', 'min:3', 'string'],
-            'description' => ['nullable', 'string', 'max:255'],
-            'logo' => 'nullable|image'
+            'catalog_name' => ['required', 'min:3'],
+            'catalog_description' => ['nullable','string', 'max:255'],
+            'cover' => 'nullable|image'
         ]);
-        if ($request->hasFile('logo')) {
-            $attributes['logo'] = $request['logo']->store('logos', 'public');
+
+        if ($request->hasFile('cover')) {
+            $attributes['cover'] = $request->file('cover')->store("catalogs", 'public');
+        } else {
+            $attributes['cover'] = $catalog['cover'];
         }
 
-        $catalog->update($attributes);
+        $data_to_save = [
+            'name' => $attributes['catalog_name'],
+            'description' => $attributes['catalog_description'] ?? null,
+            'cover' => $attributes['cover']
+        ];
+
+        $catalog->update($data_to_save);
 
         return redirect('/catalogs/index');
     }

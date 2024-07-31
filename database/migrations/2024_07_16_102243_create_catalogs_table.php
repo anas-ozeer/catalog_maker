@@ -15,8 +15,8 @@ return new class extends Migration
         Schema::create('catalogs', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->longText('description')->nullable();
-            $table->string('logo')->nullable();
+            $table->string('description')->nullable();
+            $table->string('cover')->nullable();
             $table->foreignIdFor(User::class);
             $table->timestamps();
         });

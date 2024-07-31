@@ -36,7 +36,7 @@
 </x-app-layout>
 
 <!-- Create Item Modal -->
-<x-modal name="create-item" :show="false" focusable>
+<x-modal name="create-item" :show="$errors->any()" focusable>
     <div class="p-6">
         <h2 class="text-lg font-medium text-gray-900">
             Create an Item
@@ -49,16 +49,16 @@
             @csrf
             <input type="hidden" name="catalog_id" value="{{ $catalog->id }}">
             <div class="mb-6">
-                <x-input-label for="name" >Name</x-input-label>
-                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="name" value="{{ old('name') }}" required/>
-                @error('name')
+                <x-input-label for="item_name" >Name</x-input-label>
+                <input type="text" class="border border-gray-200 rounded p-2 w-full" name="item_name" value="{{ old('item_name') }}" required/>
+                @error('item_name')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
             </div>
             <div class="mb-6">
-                <x-input-label for="description" >Description</x-input-label>
-                <textarea class="border border-gray-200 rounded p-2 w-full" name="description" rows="10">{{ old('description') }}</textarea>
-                @error('description')
+                <x-input-label for="item_description" >Description</x-input-label>
+                <textarea class="border border-gray-200 rounded p-2 w-full" name="description" rows="10">{{ old('item_description') }}</textarea>
+                @error('item_description')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
             </div>
@@ -77,9 +77,9 @@
                 @enderror
             </div>
             <div class="mb-6">
-                <x-input-label for="price" >Price</x-input-label>
-                <input type="number" step="0.01" min="0" placeholder="0.00" class="border border-gray-200 rounded p-2 w-full" name="price" value="{{ old('price') }}" required />
-                @error('price')
+                <x-input-label for="item_price" >Price</x-input-label>
+                <input type="number" step="0.01" min="0" placeholder="0.00" class="border border-gray-200 rounded p-2 w-full" name="item_price" value="{{ old('price') }}" required />
+                @error('item_price')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
             </div>
