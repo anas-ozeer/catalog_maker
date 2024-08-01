@@ -2,13 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Catalog;
 use App\Models\Item;
+use App\Models\Catalog;
+use App\Imports\ItemsImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Validation\ValidationException;
 class ItemController extends Controller
 {
+    public function import(Request $request, Catalog $catalog)
+    {
+        $request->validate([
+            'import_items' => 'required',
+        ]);
+
+        Excel::import(new ItemsImport($catalog['id']), $request->file('import_items'));
+
+        return redirect()->back();
+    }
     /**
      * Display a listing of the resource.
      */
@@ -56,7 +68,9 @@ class ItemController extends Controller
 
         Item::create($data_to_save);
 
-        return redirect()->route('catalogs.show', ['catalog' => Catalog::find($request['catalog_id'])]);
+        return view('catalogs.show', [
+            'catalog' => Catalog::find($request['catalog_id'])
+        ]);
     }
 
     /**

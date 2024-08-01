@@ -1,23 +1,22 @@
+@php
+    $items = $catalog->items;
+    $items_count = 0;
+@endphp
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-3xl text-gray-800 leading-tight">
-            {{ __($catalog->name.' Items') }}
-        </h2>
-    </x-slot>
-    @php
-        $items = $catalog->items;
-    @endphp
     <div class="flex flex-wrap justify-evenly mb-20">
         @foreach ($items as $item)
             <x-item-card :item="$item">
+                @php
+                    $items_count++
+                @endphp
             </x-item-card>
         @endforeach
     </div>
     @can('modify_catalog', $catalog)
-        <div class="fixed bottom-0 left-0 w-full font-bold h-24">
+        <div class="fixed bottom-0 w-full font-bold h-24 flex flex-wrap justify-end bg-white rounded-t-xl">
             <button
             type="button"
-            class="absolute rounded-xl top-1/3 right-10 bg-black text-white py-2 px-5 hover:shadow-md"
+            class="bg-black text-white rounded-xl hover:shadow-md my-7 mx-5 py-2 px-4"
             x-data=""
             x-on:click="$dispatch('open-modal', 'create-item')"
             >
@@ -25,18 +24,30 @@
             </button>
             <button
             type="button"
-            class="absolute rounded-xl top-1/3 right-10 bg-black text-white py-2 px-5 mx-40 hover:shadow-md"
+            class="bg-black text-white rounded-xl hover:shadow-md my-7 mx-5 py-2 px-4"
+            x-data=""
+            x-on:click="$dispatch('open-modal', 'import_items')"
+            >
+            Import Items
+            </button>
+            <button
+            type="button"
+            class="bg-black text-white rounded-xl hover:shadow-md my-7 mx-5 py-2 px-4"
             onclick="generate_pdf({{$catalog->id}})"
             >
             Generate PDF
             </button>
         </div>
     @endcan
-
+    <x-slot name="header">
+        <h2 class="font-semibold text-3xl text-gray-800 leading-tight">
+            {{ __("$catalog->name Items ($items_count)") }}
+        </h2>
+    </x-slot>
 </x-app-layout>
 
 <!-- Create Item Modal -->
-<x-modal name="create-item" :show="$errors->any()" focusable>
+<x-modal name="create-item" :show="$errors->has('item_name') || $errors->has('item_description') || $errors->has('item_image') || $errors->has('item_price')" focusable>
     <div class="p-6">
         <h2 class="text-lg font-medium text-gray-900">
             Create an Item
@@ -95,8 +106,28 @@
         </form>
     </div>
 </x-modal>
-
-
+{{-- Import Items Modal --}}
+<x-modal name="import_items" :show="$errors->has('import_items')" focusable>
+    <div class="p-6">
+        <form action="/catalogs/{{$catalog->id}}/import_items" method="POST" enctype="multipart/form-data">
+            @csrf
+            <x-input-label for="import_items">Import Items File</x-input-label>
+            <p class="text-gray-700 text-xs mt-1">Please enter a file in the correct format (name, description, price)</p>
+            <input name="import_items" class="w-full" type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" />
+            @error('import_items')
+                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
+            @enderror
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    Cancel
+                </x-secondary-button>
+                <x-primary-button class="mx-2">
+                    Import
+                </x-primary-button>
+            </div>
+        </form>
+    </div>
+</x-modal>
 <script>
     function generate_pdf(id) {
         window.open("/catalogs/"+id+"/pdf-download", "_self");
