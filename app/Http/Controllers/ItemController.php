@@ -45,30 +45,28 @@ class ItemController extends Controller
     public function store(Request $request)
     {
         // Validate the fields and store them
-        $attributes = $request->validate([
+        $request->validate([
             'item_name' => ['required', 'min:3'],
             'item_description' => ['nullable', 'string', 'max:255'],
             'item_image' => 'nullable|image',
             'item_price' => ['required', 'decimal:0,2']
         ]);
 
-        $attributes['catalog_id'] = $request['catalog_id'];
-
-        if ($request->hasFile('item_image')) {
-            $attributes['item_image'] = $request->file('item_image')->store("items",'public');
-        }
-
-        $data_to_save = [
-            'name' => $attributes['item_name'],
-            'description' => $attributes['item_description'] ?? null,
-            'image' => $attributes['item_image'] ?? null,
-            'price' => $attributes['item_price'],
-            'catalog_id' => $attributes['catalog_id']
+        $attributes = [
+            'name' => $request['item_name'],
+            'description' => $request['item_description'],
+            'price' => $request['item_price'],
+            'catalog_id' => $request['catalog_id']
         ];
 
-        Item::create($data_to_save);
+        $attributes§['catalog_id'] = $request['catalog_id'];
 
-        return view('catalogs.show', [
+        if ($request->hasFile('item_image')) {
+            $attributes['image'] = $request->file('item_image')->store("items",'public');
+        }
+        Item::create($attributes);
+
+        return view('items.index', [
             'catalog' => Catalog::find($request['catalog_id'])
         ]);
     }
@@ -97,27 +95,24 @@ class ItemController extends Controller
     public function update(Request $request, Item $item)
     {
         // Validate the fields and store them
-        $attributes = $request->validate([
+        $request->validate([
             'item_name' => ['required', 'min:3'],
             'item_description' => ['nullable', 'string', 'max:255'],
             'item_image' => 'nullable|image',
             'item_price' => ['required', 'decimal:0,2']
         ]);
 
-        if ($request->hasFile('item_image')) {
-            $attributes['item_image'] = $request->file('item_image')->store("items", 'public');
-        } else {
-            $attributes['item_image'] = $item['image'];
-        }
-
-        $data_to_save = [
-            'name' => $attributes['item_name'],
-            'description' => $attributes['item_description'] ?? null,
-            'image' => $attributes['item_image'] ?? null,
-            'price' => $attributes['item_price']
+        $attributes = [
+            'name' => $request['item_name'],
+            'description' => $request['item_description'],
+            'price' => $request['item_price']
         ];
 
-       $item->update($data_to_save);
+        if ($request->hasFile('item_image')) {
+            $attributes['image'] = $request->file('item_image')->store("items",'public');
+        }
+
+        $item->update($attributes);
 
         return view('items.show', [
             'item' => $item
