@@ -3,6 +3,7 @@ namespace App\Imports;
 
 use App\Models\Item;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
@@ -29,9 +30,6 @@ class ItemsImport implements ToModel, WithHeadingRow, WithValidation
             'price'       => $row['price'],
             'catalog_id'  => $this->catalog_id,
         ]);
-
-        $validator = Validator::make($item->toArray(), $this->rules(), $this->customValidationMessages());
-        $validator->validate();
         return $item;
     }
 
@@ -43,6 +41,7 @@ class ItemsImport implements ToModel, WithHeadingRow, WithValidation
             'price' => ['required', 'decimal:0,2']
         ];
     }
+
 
     public function customValidationMessages() : array
     {

@@ -8,18 +8,33 @@ use App\Imports\ItemsImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Validators\ValidationException;
+
 class ItemController extends Controller
 {
     public function import(Request $request, Catalog $catalog)
     {
         $request->validate([
-            'import_items' => 'required',
+            'import_items' => 'required|file', // Added file validation
         ]);
 
-        Excel::import(new ItemsImport($catalog['id']), $request->file('import_items'));
+        try {
+            Excel::import(new ItemsImport($catalog->id), $request->file('import_items'));
+        } catch (ValidationException $e) {
+            $error = $e->failures()[0]; // Get the first failure
+            $error_message = sprintf(
+                'There has been an error in row %d for the %s. %s.',
+                $error->row(),
+                $error->attribute(),
+                $error->errors()[0]
+            );
 
-        return redirect()->back();
+            return redirect()->back()->withErrors([
+                'import_items' => $error_message,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Import successful!');
     }
     /**
      * Display a listing of the resource.
