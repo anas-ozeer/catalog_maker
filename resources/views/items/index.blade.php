@@ -13,10 +13,10 @@
         @endforeach
     </div>
     @can('modify_catalog', $catalog)
-        <div class="fixed bottom-0 w-full font-bold h-24 flex flex-wrap justify-end bg-white rounded-t-xl">
+        <div class="fixed bottom-0 w-full font-bold flex flex-wrap justify-end bg-white rounded-t-xl">
             <button
             type="button"
-            class="bg-black text-white rounded-xl hover:shadow-md my-7 mx-5 py-2 px-4"
+            class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
             x-data=""
             x-on:click="$dispatch('open-modal', 'create-item')"
             >
@@ -24,7 +24,7 @@
             </button>
             <button
             type="button"
-            class="bg-black text-white rounded-xl hover:shadow-md my-7 mx-5 py-2 px-4"
+            class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
             x-data=""
             x-on:click="$dispatch('open-modal', 'import_items')"
             >
@@ -32,7 +32,7 @@
             </button>
             <button
             type="button"
-            class="bg-black text-white rounded-xl hover:shadow-md my-7 mx-5 py-2 px-4"
+            class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
             onclick="generate_pdf({{$catalog->id}})"
             >
             Generate PDF
@@ -68,7 +68,7 @@
             </div>
             <div class="mb-6">
                 <x-input-label for="item_description" >Description</x-input-label>
-                <textarea class="border border-gray-200 rounded p-2 w-full" name="description" rows="10">{{ old('item_description') }}</textarea>
+                <textarea class="border border-gray-200 rounded p-2 w-full min-h-10 max-h-56" name="description">{{ old('item_description') }}</textarea>
                 @error('item_description')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror

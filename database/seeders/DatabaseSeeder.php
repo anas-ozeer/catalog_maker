@@ -20,13 +20,5 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-
-        // Create a catalog associated with the test user
-        Catalog::create([
-            'user_id' => $user->id,
-            'name' => 'Test Catalog',
-            'description' => 'Test Description'
-            // Add other required fields here
-        ]);
     }
 }

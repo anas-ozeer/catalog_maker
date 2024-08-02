@@ -7,7 +7,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
 
-class ItemsImport implements ToModel, WithHeadingRow
+class ItemsImport implements ToModel, WithHeadingRow, WithValidation
 {
     protected $catalog_id;
     // Constructor method to initialize the catalogId property
@@ -28,5 +28,22 @@ class ItemsImport implements ToModel, WithHeadingRow
             'price'       => $row['price'],
             'catalog_id'  => $this->catalog_id,
         ]);
+    }
+
+    public function rules(): array
+    {
+        return [
+            'name' => ['required', 'min:3'],
+            'description' => ['nullable', 'string', 'max:255'],
+            'price' => ['required', 'decimal:0,2']
+        ];
+    }
+
+    public function getMessages() : array
+    {
+        return [
+            'name.min' => 'All names should have a minimum of 3 characters',
+            'price' => 'All prices should be in the format 0.00'
+        ];
     }
 }

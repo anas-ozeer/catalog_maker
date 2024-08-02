@@ -71,7 +71,7 @@
             </div>
             <div class="mb-6">
                 <x-input-label for="item_description" >Description</x-input-label>
-                <textarea class="border border-gray-200 rounded p-2 w-full" name="description" rows="10">{{$item->description}}</textarea>
+                <textarea class="border border-gray-200 rounded p-2 w-full min-h-10 max-h-56" name="description">{{$item->description}}</textarea>
                 @error('item_description')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
                 @enderror
