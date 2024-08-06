@@ -14,6 +14,7 @@ class ItemController extends Controller
 {
     public function import(Request $request, Catalog $catalog)
     {
+        $correct_format = false;
         $request->validate([
             'import_items' => 'required|file', // Added file validation
         ]);
@@ -21,20 +22,26 @@ class ItemController extends Controller
         try {
             Excel::import(new ItemsImport($catalog->id), $request->file('import_items'));
         } catch (ValidationException $e) {
-            $error = $e->failures()[0]; // Get the first failure
-            $error_message = sprintf(
-                'There has been an error in row %d for the %s. %s.',
-                $error->row(),
-                $error->attribute(),
-                $error->errors()[0]
-            );
 
+            $error = $e->failures()[0];
+            $error_message = "";
+            if (($correct_format == true) || (array_key_exists("name", $error->values()) && array_key_exists("price", $error->values()) && array_key_exists("price", $error->values()))) {
+                $error_message = sprintf(
+                    'There has been an error in row %d for the %s. %s.',
+                    $error->row(),
+                    $error->attribute(),
+                    $error->errors()[0]
+                );
+            }
+            else {
+                $error_message = "There has been an error in the format. There is a missing heading! Format: name,description,price";
+            }
             return redirect()->back()->withErrors([
                 'import_items' => $error_message,
             ]);
         }
 
-        return redirect()->back()->with('success', 'Import successful!');
+        return redirect()->back();
     }
     /**
      * Display a listing of the resource.
