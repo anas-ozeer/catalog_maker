@@ -16,6 +16,14 @@
         <div class="fixed bottom-0 w-full font-bold flex flex-wrap justify-end bg-white rounded-t-xl">
             <button
             type="button"
+            class=" bg-red-500 text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
+            x-data=""
+            x-on:click="delete_all({{$catalog->id}})"
+            >
+            Delete all Items
+            </button>
+            <button
+            type="button"
             class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
             x-data=""
             x-on:click="$dispatch('open-modal', 'create-item')"
@@ -131,5 +139,8 @@
 <script>
     function generate_pdf(id) {
         window.open("/catalogs/"+id+"/pdf-download", "_self");
+    }
+    function delete_all(id) {
+        window.open("/catalogs/"+id+"/delete_all", "_self");
     }
 </script>

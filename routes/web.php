@@ -15,7 +15,7 @@ Route::get('/dashboard',[CatalogController::class, 'view_all'])->middleware(['au
 //Import Items
 Route::post('/catalogs/{catalog}/import_items',[ItemController::class, 'import'])->name('import')->middleware(['auth', 'verified'])->can('modify_catalog','catalog');
 
-// Catalog Resource
+// Catalog
 Route::get('/catalogs/index', [CatalogController::class, 'index'])->middleware(['auth', 'verified'])->name('catalogs.index');
 Route::get('/catalogs/create', [CatalogController::class, 'create'])->middleware(['auth', 'verified'])->name('catalogs.create');
 Route::get('/catalogs/{catalog}/edit', [CatalogController::class, 'edit'])->name('catalogs.edit')->middleware(['auth', 'verified'])->can('modify_catalog','catalog');
@@ -26,12 +26,14 @@ Route::delete('/catalogs/{catalog}', [CatalogController::class, 'destroy'])->mid
 Route::get('/catalogs/{catalog}/pdf-download', [CatalogController::class, 'download_as_pdf'])->middleware(['auth', 'verified']);
 Route::get('/catalogs/{catalog}/pdf-view', [CatalogController::class, 'view_pdf'])->middleware(['auth', 'verified']);
 
-// Item Resource
+
+// Item
 Route::get('/items/{item}',[ItemController::class, 'show'])->name('items.show')->middleware(['auth', 'verified']);
 Route::get('/catalogs/{catalog}/items', [ItemController::class, 'index'])->name('items.index')->middleware(['auth', 'verified']);
 Route::post('/items', [ItemController::class, 'store'])->middleware(['auth', 'verified']);
 Route::patch('/items/{item}', [ItemController::class, 'update'])->middleware(['auth', 'verified'])->can('modify_item', 'item');
 Route::delete('items/{item}',[ItemController::class, 'destroy'])->middleware(['auth', 'verified'])->can('modify_item', 'item');
+Route::get('/catalogs/{catalog}/delete_all', [ItemController::class, 'delete_all'])->middleware(['auth', 'verified']);
 
 
 

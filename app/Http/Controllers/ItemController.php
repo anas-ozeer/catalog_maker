@@ -12,6 +12,11 @@ use Maatwebsite\Excel\Validators\ValidationException;
 
 class ItemController extends Controller
 {
+    public function delete_all(Catalog $catalog) {
+        Item::where('catalog_id', $catalog['id'])->delete();
+        return redirect()->back();
+    }
+
     public function import(Request $request, Catalog $catalog)
     {
         $correct_format = false;
