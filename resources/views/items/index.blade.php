@@ -22,6 +22,7 @@
             >
             Create Item
             </button>
+
             <button
             type="button"
             class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
@@ -30,7 +31,16 @@
             >
             Import Items
             </button>
-            
+
+            <button
+            type="button"
+            class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
+            x-data=""
+            x-on:click="$dispatch('open-modal', 'bulk_edit_image')"
+            >
+            Import Images
+            </button>
+
             <button
             type="button"
             class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
@@ -166,6 +176,13 @@
         </div>
     </div>
 
+</x-modal>
+<x-modal name="bulk_edit_image" :show="false" focusable>
+    @foreach ($items as $item)
+    <div class="p-6">
+        <iframe src="/items/{{$item->id}}/bulk_edit_image" width="100%" height="200px" class="rounded-xl border-black border-2"></iframe>
+    </div>
+    @endforeach
 </x-modal>
 <script>
     function generate_pdf(id) {

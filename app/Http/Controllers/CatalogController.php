@@ -17,7 +17,6 @@ class CatalogController extends Controller
      */
     public function view_all()
     {
-        $catalogs = Auth::user()->catalogs;
         return view('dashboard', [
             'catalogs' => Catalog::latest()->get()
         ]);
@@ -125,29 +124,29 @@ class CatalogController extends Controller
     }
 
 
+    // This function is not used to performance issues
+    // public function download_as_pdf(Catalog $catalog)
+    // {
 
-    public function download_as_pdf(Catalog $catalog)
-    {
+    //     $html = view('pdfs.catalog', [
+    //         'catalog' => $catalog
+    //     ])->render();
 
-        $html = view('pdfs.catalog', [
-            'catalog' => $catalog
-        ])->render();
+    //     // Correctly handle paths with spaces
+    //     $nodePath = '/Users/sheikanasallyozeer/Library/Application\\ Support/Herd/config/nvm/versions/node/v20.15.0/bin/node';
+    //     $npmPath = '/Users/sheikanasallyozeer/Library/Application\\ Support/Herd/config/nvm/versions/node/v20.15.0/bin/npm';
 
-        // Correctly handle paths with spaces
-        $nodePath = '/Users/sheikanasallyozeer/Library/Application\\ Support/Herd/config/nvm/versions/node/v20.15.0/bin/node';
-        $npmPath = '/Users/sheikanasallyozeer/Library/Application\\ Support/Herd/config/nvm/versions/node/v20.15.0/bin/npm';
+    //     $pdf = Browsershot::html($html)
+    //     ->setNodeBinary($nodePath)
+    //     ->setNpmBinary($npmPath)
+    //     ->margins(0,0,0,0)
+    //     ->format('a4')
+    //     ->pdf();
 
-        $pdf = Browsershot::html($html)
-        ->setNodeBinary($nodePath)
-        ->setNpmBinary($npmPath)
-        ->margins(0,0,0,0)
-        ->format('a4')
-        ->pdf();
-
-        return response($pdf, 200, [
-            'Content-Type' => 'application/pdf'
-        ]);
-    }
+    //     return response($pdf, 200, [
+    //         'Content-Type' => 'application/pdf'
+    //     ]);
+    // }
 
     public function view_pdf(Catalog $catalog)
     {

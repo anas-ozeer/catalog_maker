@@ -109,12 +109,26 @@ class ItemController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Bulk import image form
      */
-    public function edit(Item $item)
+    public function bulk_edit_image(Item $item)
     {
-        //
+        return view('items.bulk-edit-image',[
+            'item' => $item
+        ]);
     }
+
+    public function bulk_update_image(Request $request, Item $item) {
+        $attributes=[];
+        if ($request->hasFile('item_image')) {
+            $attributes['image'] = $request->file('item_image')->store("items",'public');
+        }
+
+        $item->update($attributes);
+
+        return redirect()->action([ItemController::class, 'bulk_edit_image'], ['item' => $item ]);
+    }
+
 
     /**
      * Update the specified resource in storage.

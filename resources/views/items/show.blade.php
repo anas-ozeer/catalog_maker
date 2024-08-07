@@ -6,7 +6,7 @@
     </x-slot>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
         <div class="flex flex-col items-center">
-            <div class="w-full mt-1">
+            <div class="w-full my-1">
                 <img
                     class="w-full h-full object-cover rounded-lg shadow-md"
                     src="{{ $item->image ? asset($item->image) : asset('images/no-image.png') }}"
