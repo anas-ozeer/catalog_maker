@@ -16,14 +16,6 @@
         <div class="fixed bottom-0 w-full font-bold flex flex-wrap justify-end bg-white rounded-t-xl">
             <button
             type="button"
-            class=" bg-red-500 text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
-            x-data=""
-            x-on:click="delete_all({{$catalog->id}})"
-            >
-            Delete all Items
-            </button>
-            <button
-            type="button"
             class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
             x-data=""
             x-on:click="$dispatch('open-modal', 'create-item')"
@@ -38,12 +30,22 @@
             >
             Import Items
             </button>
+            
             <button
             type="button"
             class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
             onclick="generate_pdf({{$catalog->id}})"
             >
             Generate PDF
+            </button>
+
+            <button
+            type="button"
+            class=" bg-red-500 text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
+            x-data=""
+            x-on:click="$dispatch('open-modal', 'delete_all')"
+            >
+            Delete all Items
             </button>
         </div>
     @endcan
@@ -135,6 +137,35 @@
             </div>
         </form>
     </div>
+</x-modal>
+<x-modal name="delete_all" :show="false" focusable>
+    <div class="p-6">
+        <h2 class="text-lg font-medium text-gray-900">
+            Are you sure you want to delete this catalog?
+        </h2>
+
+        <p class="mt-1 text-sm text-gray-600">
+            This action cannot be undone.
+        </p>
+
+        <div class="mt-6 flex justify-end">
+            <button
+           type="button"
+            class=" mx-4 px-4 py-2 bg-white border border-gray-300 rounded-xl text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150"
+            x-on:click="$dispatch('close')"
+            >
+                Cancel
+            </button>
+            <button
+            type="button"
+            class=" bg-red-500 text-white rounded-xl hover:shadow-md py-2 px-4"
+            x-on:click="delete_all({{$catalog->id}})"
+            >
+            Delete all Items
+            </button>
+        </div>
+    </div>
+
 </x-modal>
 <script>
     function generate_pdf(id) {
