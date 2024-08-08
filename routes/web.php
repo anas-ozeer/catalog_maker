@@ -32,7 +32,7 @@ Route::post('/items', [ItemController::class, 'store'])->middleware(['auth', 've
 Route::patch('/items/{item}', [ItemController::class, 'update'])->middleware(['auth', 'verified'])->can('modify_item', 'item');
 Route::delete('items/{item}',[ItemController::class, 'destroy'])->middleware(['auth', 'verified'])->can('modify_item', 'item');
 Route::get('/catalogs/{catalog}/delete_all', [ItemController::class, 'delete_all'])->middleware(['auth', 'verified'])->can('modify_catalog','catalog');
-Route::get('/items/{item}/bulk_edit_image', [ItemController::class, 'bulk_edit_image'])->middleware(['auth', 'verified'])->can('modify_item', 'item');
+Route::get('/catalogs/{catalog}/bulk_edit_image', [ItemController::class, 'bulk_edit_image'])->middleware(['auth', 'verified'])->can('modify_catalog','catalog');
 Route::patch('/items/{item}/bulk_update_image', [ItemController::class, 'bulk_update_image'])->middleware(['auth', 'verified'])->can('modify_item', 'item');
 
 

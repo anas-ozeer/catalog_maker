@@ -111,22 +111,23 @@ class ItemController extends Controller
     /**
      * Bulk import image form
      */
-    public function bulk_edit_image(Item $item)
+    public function bulk_edit_image(Catalog $catalog)
     {
-        return view('items.bulk-edit-image',[
-            'item' => $item
+        return view('items.index',[
+            'catalog' => $catalog,
+            'edit' => true
         ]);
     }
 
     public function bulk_update_image(Request $request, Item $item) {
         $attributes=[];
-        if ($request->hasFile('item_image')) {
-            $attributes['image'] = $request->file('item_image')->store("items",'public');
+        if ($request->hasFile('item_image_'.$item['id'])) {
+            $attributes['image'] = $request->file('item_image_'.$item['id'])->store("items",'public');
         }
 
         $item->update($attributes);
 
-        return redirect()->action([ItemController::class, 'bulk_edit_image'], ['item' => $item ]);
+        return redirect()->action([ItemController::class, 'bulk_edit_image'], ['catalog' => $item->catalog]);
     }
 
 

@@ -1,11 +1,12 @@
 @php
     $items = $catalog->items;
     $items_count = 0;
+    $edit = isset($edit) ? $edit : false; // For bulk editing of the page
 @endphp
 <x-app-layout>
     <div class="flex flex-wrap justify-evenly mb-20">
         @foreach ($items as $item)
-            <x-item-card :item="$item">
+            <x-item-card :item="$item" :edit="$edit">
                 @php
                     $items_count++
                 @endphp
@@ -14,59 +15,74 @@
     </div>
     @can('modify_catalog', $catalog)
         <div class="fixed bottom-0 w-full font-bold flex flex-wrap justify-end bg-white rounded-t-xl">
-            <button
-            type="button"
-            class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
-            x-data=""
-            x-on:click="$dispatch('open-modal', 'create-item')"
-            >
-            Create Item
-            </button>
 
+            @if ($edit)
             <button
             type="button"
-            class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
-            x-data=""
-            x-on:click="$dispatch('open-modal', 'import_items')"
+            class=" m-4 px-4 py-2 bg-white border border-gray-300 rounded-xl text-gray-700 shadow-sm hover:bg-gray-50"
+            onclick="return_home({{$catalog->id}})"
             >
-            Import Items
+            Back
             </button>
+            @else
+                <button
+                type="button"
+                class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
+                x-data=""
+                x-on:click="$dispatch('open-modal', 'create-item')"
+                >
+                Create Item
+                </button>
 
-            <button
-            type="button"
-            class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
-            x-data=""
-            x-on:click="$dispatch('open-modal', 'bulk_edit_image')"
-            >
-            Import Images
-            </button>
+                <button
+                type="button"
+                class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
+                x-data=""
+                x-on:click="$dispatch('open-modal', 'import_items')"
+                >
+                Import Items
+                </button>
 
-            <button
-            type="button"
-            class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
-            onclick="generate_pdf({{$catalog->id}})"
-            >
-            Generate PDF
-            </button>
+                <button
+                type="button"
+                class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
+                onclick="bulk_edit_image({{$catalog->id}})"
+                >
+                Import Images
+                </button>
 
-            <button
-            type="button"
-            class=" bg-red-500 text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
-            x-data=""
-            x-on:click="$dispatch('open-modal', 'delete_all')"
-            >
-            Delete all Items
-            </button>
+                <button
+                type="button"
+                class="bg-black text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
+                onclick="generate_pdf({{$catalog->id}})"
+                >
+                Generate PDF
+                </button>
+
+                <button
+                type="button"
+                class=" bg-red-500 text-white rounded-xl hover:shadow-md w-48 m-4 py-2 px-4"
+                x-data=""
+                x-on:click="$dispatch('open-modal', 'delete_all')"
+                >
+                Delete all Items
+                </button>
+            @endif
         </div>
     @endcan
     <x-slot name="header">
+        @if ($edit)
+        <h2 class="font-semibold text-3xl text-gray-800 leading-tight">
+            {{ __("$catalog->name Items ($items_count) Bulk Import") }}
+        </h2>
+        @else
         <h2 class="font-semibold text-3xl text-gray-800 leading-tight">
             {{ __("$catalog->name Items ($items_count)") }}
         </h2>
+        @endif
     </x-slot>
 </x-app-layout>
 
-<!-- Create Item Modal -->
 <x-modal name="create-item" :show="$errors->has('item_name') || $errors->has('item_description') || $errors->has('item_image') || $errors->has('item_price')" focusable>
     <div class="p-6">
         <h2 class="text-lg font-medium text-gray-900">
@@ -126,7 +142,6 @@
         </form>
     </div>
 </x-modal>
-{{-- Import Items Modal --}}
 <x-modal name="import_items" :show="$errors->has('import_items')" focusable>
     <div class="p-6">
         <form action="/catalogs/{{$catalog->id}}/import_items" method="POST" enctype="multipart/form-data">
@@ -160,7 +175,7 @@
 
         <div class="mt-6 flex justify-end">
             <button
-           type="button"
+            type="button"
             class=" mx-4 px-4 py-2 bg-white border border-gray-300 rounded-xl text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150"
             x-on:click="$dispatch('close')"
             >
@@ -177,13 +192,7 @@
     </div>
 
 </x-modal>
-<x-modal name="bulk_edit_image" :show="false" focusable>
-    @foreach ($items as $item)
-    <div class="p-6">
-        <iframe src="/items/{{$item->id}}/bulk_edit_image" width="100%" height="200px" class="rounded-xl border-black border-2"></iframe>
-    </div>
-    @endforeach
-</x-modal>
+
 <script>
     function generate_pdf(id) {
         window.open("/catalogs/"+id+"/pdf-download", "_self");
@@ -191,4 +200,23 @@
     function delete_all(id) {
         window.open("/catalogs/"+id+"/delete_all", "_self");
     }
+    function bulk_edit_image(id) {
+        window.open("/catalogs/"+id+"/bulk_edit_image", "_self");
+    }
+    function return_home(id) {
+        window.open("/catalogs/"+id+"/items", "_self");
+    }
+    // Save the scroll position before the page unloads
+    window.addEventListener('beforeunload', function() {
+        localStorage.setItem('scrollPosition', window.scrollY);
+    });
+
+    // Restore the scroll position after the page loads
+    window.addEventListener('load', function() {
+        const scrollPosition = localStorage.getItem('scrollPosition');
+        if (scrollPosition) {
+            window.scrollTo(0, parseInt(scrollPosition, 10));
+        }
+    });
 </script>
+
