@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
-
+use Illuminate\Support\Facades\Storage;
 class ItemController extends Controller
 {
     public function delete_all(Catalog $catalog) {
@@ -122,6 +122,9 @@ class ItemController extends Controller
     public function bulk_update_image(Request $request, Item $item) {
         $attributes=[];
         if ($request->hasFile('item_image_'.$item['id'])) {
+            if (!empty($item['image'])) {
+                Storage::disk('public')->delete($item['image']);
+            }
             $attributes['image'] = $request->file('item_image_'.$item['id'])->store("items",'public');
         }
 
@@ -151,6 +154,9 @@ class ItemController extends Controller
         ];
 
         if ($request->hasFile('item_image')) {
+            if (!empty($item['image'])) {
+                Storage::disk('public')->delete($item['image']);
+            }
             $attributes['image'] = $request->file('item_image')->store("items",'public');
         }
 

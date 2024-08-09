@@ -9,6 +9,7 @@ use Illuminate\Validation\Rule;
 use function Spatie\LaravelPdf\Support\pdf;
 use Spatie\Browsershot\Browsershot;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 class CatalogController extends Controller
 {
@@ -106,6 +107,9 @@ class CatalogController extends Controller
         ];
 
         if ($request->hasFile('cover')) {
+            if (!empty($catalog['cover'])) {
+                Storage::disk('public')->delete($catalog['cover']);
+            }
             $attributes['cover'] = $request->file('cover')->store("catalogs", 'public');
         }
 
