@@ -13,7 +13,17 @@ use Illuminate\Support\Facades\Storage;
 class ItemController extends Controller
 {
     public function delete_all(Catalog $catalog) {
-        Item::where('catalog_id', $catalog['id'])->delete();
+        $items = Item::where('catalog_id', $catalog['id'])->get();
+        if (empty($items)) {
+            abort(404, 'No items in this catalog to delete!');
+        }
+        foreach ($items as $item)
+        {
+            if (!empty($item['image'])) {
+                Storage::disk('public')->delete($item['image']);
+            }
+            $item->delete();
+        }
         return redirect()->back();
     }
 
@@ -172,6 +182,9 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
+        if (!empty($item['image'])) {
+            Storage::disk('public')->delete($item['image']);
+        }
         $catalog = $item->catalog;
         $item->delete();
         return view('items.index', [

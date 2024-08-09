@@ -123,6 +123,9 @@ class CatalogController extends Controller
      */
     public function destroy(Catalog $catalog)
     {
+        if (!empty($catalog['cover'])) {
+            Storage::disk('public')->delete($catalog['cover']);
+        }
         $catalog->delete();
         return redirect('catalogs/index');
     }
