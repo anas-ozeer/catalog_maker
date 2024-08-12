@@ -18,39 +18,46 @@
     <body class="font-sans antialiased min-h-screen flex items-center justify-center">
 
         @if (Route::has('login'))
-            <main class="flex flex-row items-center">
-                @auth
-                <div class="mx-5">
-                    <a
-                        href="{{ url('/dashboard') }}"
-                        class=" bg-black text-white px-4 py-2 rounded-xl text-xl hover:hover:shadow-2xl"
-                    >
-                        Dashboard
-                    </a>
-                </div>
+            <main class="flex flex-row">
+                <div>
+                    <div class="text-5xl font-bold m-5">
+                        This is Catalog Maker
+                    </div>
+                    <div class="flex flex-row items-center justify-center">
+                        @auth
+                        <div class="m-5">
+                            <a
+                                href="{{ url('/dashboard') }}"
+                                class=" bg-black text-white px-4 py-2 rounded-xl text-xl hover:hover:shadow-2xl"
+                            >
+                                Dashboard
+                            </a>
+                        </div>
 
-                @else
-                <div class="mx-5">
-                    <a
-                        href="{{ route('login') }}"
-                        class=" bg-black text-white px-4 py-2 rounded-xl text-xl hover:hover:shadow-2xl"
-                    >
-                        Log in
-                    </a>
-                </div>
+                        @else
+                        <div class="m-5">
+                            <a
+                                href="{{ route('login') }}"
+                                class=" bg-black text-white px-4 py-2 rounded-xl text-xl hover:hover:shadow-2xl"
+                            >
+                                Log in
+                            </a>
+                        </div>
 
+                        @if (Route::has('register'))
+                        <div class="m-5">
+                        <a
+                            href="{{ route('register') }}"
+                            class=" bg-black text-white px-4 py-2 rounded-xl text-xl hover:shadow-2xl"
+                        >
+                            Register
+                        </a>
+                        </div>
+                    </div>
 
-                @if (Route::has('register'))
-                <div class="mx-5">
-                    <a
-                    href="{{ route('register') }}"
-                    class=" bg-black text-white px-4 py-2 rounded-xl text-xl hover:shadow-2xl"
-                >
-                    Register
-                </a>
+                    @endif
+                    @endauth
                 </div>
-                @endif
-                @endauth
             </main>
         @endif
     </body>
