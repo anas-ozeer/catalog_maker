@@ -143,6 +143,25 @@ class ItemController extends Controller
         return redirect()->action([ItemController::class, 'bulk_edit_image'], ['catalog' => $item->catalog]);
     }
 
+    public function bulk_update_image_ajax(Request $request, Item $item) {
+
+            if ($request->hasFile('item_image_' . $item["id"])) {
+                if (!empty($item['image'])) {
+                    Storage::disk('public')->delete($item['image']);
+                }
+                $image = $request->file('item_image_' . $item["id"]);
+                $item->image = $image->store("items", "public"); // Store the image
+                $item->save();
+
+                return response()->json([
+                    'success' => true,
+                    'image_url' => asset($item["image"]),
+                ]);
+            }
+
+            return response()->json(['success' => false], 400);
+    }
+
 
     /**
      * Update the specified resource in storage.
