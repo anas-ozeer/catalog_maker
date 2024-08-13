@@ -26,8 +26,8 @@ This is a Laravel-based web application that allows users to manage catalogs and
 
 1. **Clone the repository**:
     ```bash
-    git clone 
-    cd yourrepository
+    git clone https://github.com/anas-ozeer/catalog_maker
+    cd catalog_maker
     ```
 
 2. **Install dependencies**:
