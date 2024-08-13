@@ -24,7 +24,7 @@ class ItemController extends Controller
             }
             $item->delete();
         }
-        return redirect()->back();
+        return redirect('/catalogs/'.$catalog['id'].'/items');
     }
 
     public function import(Request $request, Catalog $catalog)
@@ -51,12 +51,12 @@ class ItemController extends Controller
             else {
                 $error_message = "There has been an error in the format. There is a missing heading! Format: name,description,price";
             }
-            return redirect()->back()->withErrors([
+            return redirect('/catalogs/'.$catalog['id'].'/items')->withErrors([
                 'import_items' => $error_message,
             ]);
         }
 
-        return redirect()->back();
+        return redirect('/catalogs/'.$catalog['id'].'/items');
     }
     /**
      * Display a listing of the resource.
