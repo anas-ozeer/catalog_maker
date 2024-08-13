@@ -2,6 +2,9 @@
 
 This is a Laravel-based web application that allows users to manage catalogs and the items within them. Users can create, update, view, and delete catalogs, and perform similar operations for items associated with each catalog. The application also supports importing items from Excel files and exporting catalogs to PDF.
 
+## Video Link
+Youtube: https://youtu.be/s41gygf71IM?feature=shared
+
 ## Table of Contents
 
 - [Features](#features)
