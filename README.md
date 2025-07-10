@@ -17,14 +17,10 @@ The application supports importing items from Excel files, exporting catalogs to
 - [Features](#-features)
 - [System Requirements](#-system-requirements)
 - [Installation Guide](#-installation-guide)
-- [Usage](#usage)
-  - [Catalog Management](#catalog-management)
-  - [Item Management](#item-management)
-  - [Import Items](#import-items)
-  - [Export Catalog as PDF](#export-catalog-as-pdf)
-  - [Bulk Image Upload](#bulk-image-upload)
-- [Contributing](#contributing)
-- [License](#license)
+- [Serving the Application](#-serving-the-application)
+- [Usage](#-usage)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ---
 
@@ -154,6 +150,37 @@ Follow these steps to set up the application locally:
    ```bash
    php artisan migrate
    ```
+
+---
+
+## ▶️ Serving the Application
+
+To run the application locally, you will typically use **two terminal sessions**: one for the Laravel backend server and another for the frontend asset compiler.
+
+1. **Start the Laravel development server**
+
+   ```bash
+   php artisan serve
+   ```
+
+   By default, this serves your application at [http://localhost:8000](http://localhost:8000).
+
+2. **Run Vite to compile frontend assets**
+
+   Open a **second terminal** in your project root and run:
+
+   ```bash
+   npm run dev
+   ```
+
+   This watches for changes in your frontend resources (JS, CSS) and automatically recompiles them.
+
+---
+
+## 🛠️ Usage
+
+Once both servers are running, visit [http://localhost:8000](http://localhost:8000) in your browser.  
+You can now use the application and verify that catalog and item operations work as expected.
 
 ---
 
